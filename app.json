@@ -4,6 +4,9 @@
     "slug": "antichud",
     "scheme": "antichud",
     "version": "0.1.0",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
@@ -17,6 +20,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.antichud.app",
+      "buildNumber": "1",
       "infoPlist": {
         "NSCameraUsageDescription": "Antichud uses your camera to photograph meals so the AI can estimate energy in kilojoules.",
         "NSPhotoLibraryUsageDescription": "Antichud needs access to your photos so you can attach meal images to log entries.",

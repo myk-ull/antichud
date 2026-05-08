@@ -95,6 +95,73 @@ npm run build:web    # static export to dist/
 npm run prebuild:ios # regenerate ios/ from app.json (then `npm run pods`)
 ```
 
+## Ship to TestFlight (EAS Build)
+
+EAS builds the signed `.ipa` on Expo's servers and uploads it to App Store
+Connect → TestFlight. No Xcode archives required. Roughly 15 min end-to-end
+the first time.
+
+### Prerequisites (one-time)
+
+1. **Apple Developer account** ($99/yr) — [developer.apple.com](https://developer.apple.com)
+2. **Expo account** — free at [expo.dev/signup](https://expo.dev/signup)
+3. **App-specific password** for your Apple ID — [appleid.apple.com](https://appleid.apple.com) → Sign-In and Security → App-Specific Passwords. EAS submit will ask for this.
+
+### Setup (one-time per machine / project)
+
+```sh
+# Log in to Expo
+eas login
+
+# Link this project to an EAS project (writes extra.eas.projectId into app.json)
+npm run eas:init
+
+# Push the API key as an EAS secret (NEVER commit this)
+eas secret:create --scope project --name EXPO_PUBLIC_OPENROUTER_API_KEY --type string --value "sk-or-..."
+```
+
+### Build & submit
+
+```sh
+# 1. Build the production .ipa on EAS servers
+npm run build:ios:prod
+
+# Wait ~10 min. EAS will:
+#   - generate signing certs + provisioning profile (say "yes" when prompted)
+#   - bump ios.buildNumber automatically (autoIncrement: true in eas.json)
+#   - bundle EXPO_PUBLIC_OPENROUTER_API_KEY from your EAS secret
+#   - upload to expo.dev with a download link
+
+# 2. Submit the latest build to App Store Connect → TestFlight
+npm run submit:ios
+
+# First time only: EAS will create the App Store Connect listing for you.
+# It needs your Apple ID + the app-specific password from step 3 above.
+```
+
+### After submission
+
+1. Go to **App Store Connect → My Apps → Antichud → TestFlight**.
+2. Wait ~10 min for Apple to process the build (you'll get an email).
+3. Add yourself as an **internal tester** under the Internal Testing group — instant, no Apple review.
+4. On your iPhone, install the **TestFlight** app from the App Store, sign in with the same Apple ID, accept the invite, hit Install.
+
+### Subsequent builds
+
+```sh
+# Bump the marketing version in app.json (e.g. "0.1.0" → "0.2.0") if it's a
+# user-visible change. Build numbers auto-increment on EAS.
+npm run build:ios:prod
+npm run submit:ios
+```
+
+### Notes
+
+- The local Bun dev proxy is **not used in TestFlight builds**. The app calls OpenRouter directly using `EXPO_PUBLIC_OPENROUTER_API_KEY` baked at build time.
+- `EXPO_PUBLIC_*` env vars are bundled into the JS — anyone who downloads your `.ipa` can extract the key. For a personal TestFlight this is fine; for a public release, route calls through a hosted proxy you control.
+- The local `AppDelegate.mm` Metro IP patch (under `ios/`) is only relevant for dev-on-device. EAS regenerates `ios/` fresh from `app.json` for production builds, so the patch is automatically excluded.
+- `runtimeVersion.policy: "appVersion"` in `app.json` means OTA updates can only ship to builds with the same `version` string. Bump `version` when changing native modules; leave it alone for JS-only changes.
+
 ## Layout
 
 - `app/` — expo-router file-based routes (`(tabs)` group is the main shell)
