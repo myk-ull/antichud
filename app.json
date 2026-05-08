@@ -16,16 +16,18 @@
       "resizeMode": "contain",
       "backgroundColor": "#0a0a0a"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.antichud.app",
-      "buildNumber": "1",
       "infoPlist": {
         "NSCameraUsageDescription": "Antichud uses your camera to photograph meals so the AI can estimate energy in kilojoules.",
         "NSPhotoLibraryUsageDescription": "Antichud needs access to your photos so you can attach meal images to log entries.",
         "NSPhotoLibraryAddUsageDescription": "Antichud may save annotated meal photos back to your photo library.",
-        "NSUserNotificationsUsageDescription": "Antichud uses notifications to remind you to log meals."
+        "NSUserNotificationsUsageDescription": "Antichud uses notifications to remind you to log meals.",
+        "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
@@ -35,11 +37,12 @@
         "backgroundColor": "#0a0a0a"
       },
       "permissions": [
-        "CAMERA",
-        "READ_EXTERNAL_STORAGE",
-        "WRITE_EXTERNAL_STORAGE",
-        "POST_NOTIFICATIONS",
-        "SCHEDULE_EXACT_ALARM"
+        "android.permission.CAMERA",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.POST_NOTIFICATIONS",
+        "android.permission.SCHEDULE_EXACT_ALARM",
+        "android.permission.RECORD_AUDIO"
       ]
     },
     "web": {
@@ -71,7 +74,11 @@
     "extra": {
       "router": {
         "origin": false
+      },
+      "eas": {
+        "projectId": "22655b71-76f4-4064-a85e-2fb4a0e8e209"
       }
-    }
+    },
+    "owner": "myk-ull"
   }
 }

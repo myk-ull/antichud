@@ -39,7 +39,8 @@
   "submit": {
     "production": {
       "ios": {
-        "ascAppId": "REPLACE_WITH_APP_STORE_CONNECT_APP_ID"
+        "appleId": "michaelshen06@icloud.com",
+        "appleTeamId": "8YDR7VAZYR"
       }
     }
   }
