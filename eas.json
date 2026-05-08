@@ -8,7 +8,8 @@
       "developmentClient": true,
       "distribution": "internal",
       "ios": {
-        "simulator": true
+        "simulator": true,
+        "image": "latest"
       },
       "env": {
         "EXPO_PUBLIC_OPENROUTER_MODEL": "google/gemini-3-flash-preview",
@@ -19,7 +20,8 @@
     "preview": {
       "distribution": "internal",
       "ios": {
-        "simulator": false
+        "simulator": false,
+        "image": "latest"
       },
       "env": {
         "EXPO_PUBLIC_OPENROUTER_MODEL": "google/gemini-3-flash-preview",
@@ -29,6 +31,9 @@
     },
     "production": {
       "autoIncrement": true,
+      "ios": {
+        "image": "latest"
+      },
       "env": {
         "EXPO_PUBLIC_OPENROUTER_MODEL": "google/gemini-3-flash-preview",
         "EXPO_PUBLIC_OPENROUTER_REFERER": "https://antichud.local",
